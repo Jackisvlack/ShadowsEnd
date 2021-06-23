@@ -26,7 +26,7 @@ public class Camera {
                 0.0f, projectionSize.y * this.zoom, 0.0f, 100.0f);
         projectionMatrix.invert(inverseProjection);
     }
-
+    //as dasdasd
     public Matrix4f getViewMatrix() {
         Vector3f cameraFront = new Vector3f(0.0f, 0.0f, -1.0f);
         Vector3f cameraUp = new Vector3f(0.0f, 1.0f, 0.0f);
