@@ -1,7 +1,10 @@
 package components;
 
 import bane.GameObject;
+import bane.Prefabs;
+import bane.Window;
 import editor.GameViewWindow;
+import editor.PropertiesWindow;
 import org.joml.Vector4f;
 import org.lwjgl.system.CallbackI;
 
@@ -17,7 +20,45 @@ public class TranslateGizmo extends Component {
     private SpriteRenderer yAxisSprite;
     private GameObject activeGameObject = null;
 
-    public TranslateGizmo(Sprite arrowSprite) {
+    private PropertiesWindow propertiesWindow;
 
+    public TranslateGizmo(Sprite arrowSprite, PropertiesWindow propertiesWindow) {
+        this.xAxisObject = Prefabs.generateSpriteObject(arrowSprite, 16, 48);
+        this.yAxisObject = Prefabs.generateSpriteObject(arrowSprite, 16, 48);
+        this.xAxisSprite = this.xAxisObject.getComponent(SpriteRenderer.class);
+        this.yAxisSprite = this.yAxisObject.getComponent(SpriteRenderer.class);
+        this.propertiesWindow = propertiesWindow;
+
+        Window.getScene().addGameObjectToScene(this.xAxisObject);
+        Window.getScene().addGameObjectToScene(this.yAxisObject);
+    }
+
+    @Override
+    public void start() {}
+
+    @Override
+    public void update(float dt) {
+        if (this.activeGameObject != null) {
+            this.xAxisObject.transform.position.set(this.activeGameObject.transform.position);
+            this.yAxisObject.transform.position.set(this.activeGameObject.transform.position);
+        }
+
+        this.activeGameObject = this.propertiesWindow.getActiveGameObject();
+        if (this.activeGameObject != null) {
+            this.setActive();
+        } else {
+            this.setInactive();
+        }
+    }
+
+    private void setActive() {
+        this.xAxisSprite.setColor(xAxisColor);
+        this.yAxisSprite.setColor(yAxisColor);
+    }
+
+    private void setInactive() {
+        this.activeGameObject = null;
+        this.xAxisSprite.setColor(new Vector4f(0,0,0,0));
+        this.yAxisSprite.setColor(new Vector4f(0,0,0,0));
     }
 }
