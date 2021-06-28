@@ -1,9 +1,11 @@
 package scenes;
 
+import bane.Transform;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import components.Component;
 import components.ComponentDeserializer;
+import components.TranslateGizmo;
 import imgui.ImGui;
 import bane.Camera;
 import bane.GameObject;
@@ -68,6 +70,13 @@ public abstract class Scene {
 
     public void imgui() {
 
+    }
+
+    public GameObject createGameObject(String name) {
+        GameObject go = new GameObject(name);
+        go.addComponent(new Transform());
+        go.transform = go.getComponent(Transform.class);
+        return go;
     }
 
     public void saveExit() {
